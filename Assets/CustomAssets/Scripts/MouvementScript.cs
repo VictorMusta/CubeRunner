@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MouvementScript : MonoBehaviour
@@ -44,14 +43,22 @@ public class MouvementScript : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collisionEvent)
     {
-        if (collisionEvent.gameObject.name == "Ground")
+        if (collisionEvent.gameObject.layer == 7)
         {
+            Debug.Log("You can now jump once.");
             jumpCount = 1;
         }
-        if (collisionEvent.gameObject.name == "Obstacles")
+        if (collisionEvent.gameObject.layer == 8)
         {
-            ResetGame();
             Debug.Log("GAME OVER");
+            ResetGame();
+        }
+
+        if (collisionEvent.gameObject.layer == 9)
+        {
+            collisionEvent.gameObject.SetActive(false);
+            Debug.Log("BONUS");
+            gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x*2, gameObject.transform.localScale.y*2, gameObject.transform.localScale.z*2);
         }
     }
 }
